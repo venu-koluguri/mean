@@ -13,30 +13,22 @@ var mongoose = require('mongoose'),
 
 
 exports.createOrg = function(req, res, next){
-    var organization = new Organization(req.body);
-    //var user = new User(req.body);
-
-    //user.provider = 'local';
 
     // because we set our user.provider to local our models/user.js validation will always be true
-    /*req.assert('name', 'You must enter a name').notEmpty();
+    req.assert('name', 'You must enter a name').notEmpty();
     req.assert('email', 'You must enter a valid email address').isEmail();
     req.assert('contact_person', 'You must enter a contact person').notEmpty();
-    req.assert('contact_number', 'You must enter a contact number').notEmpty();*/
-    //req.assert('password', 'Password must be between 8-20 characters long').len(8, 20);
-    //req.assert('username', 'Username cannot be more than 20 characters').len(1, 20);
-    //req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+    req.assert('contact_number', 'You must enter a contact number').notEmpty();
+    req.assert('password', 'Password must be between 8-20 characters long').len(8, 20);
+    req.assert('login', 'Username cannot be more than 20 characters').len(2, 20);
+
 
     var errors = req.validationErrors();
     if (errors) {
         return res.status(400).send(errors);
     }
-    organization.name = 'ABCDE';
-    organization.email = 'a@b.com';
-    organization.contact_person = 'ABCDE';
-    organization.contact_number = '123333';
-    organization.roles = [{name:'Admin'}];
-    console.log(organization);
+    // Save Organization.
+    var organization = new Organization(req.body);
     organization.save(function(err){
         if(err) {
             var modelErrors = [];
@@ -51,32 +43,17 @@ exports.createOrg = function(req, res, next){
                 res.status(500).json(modelErrors);
             }
         } else {
-            var user = new User();
-            user.login = 'skaithepalli12';
-            user.first_name = 'Sudhakar12';
-            user.last_name = 'Kaithepalli12';
-            user.password = 'Test?12345';
-            user.organization = organization;
-            user.save(function(err){
-               if(err) {
-                   var modelErrors = [];
-                   if (err.errors) {
-                       for (var x in err.errors) {
-                           modelErrors.push({
-                               param: x,
-                               msg: err.errors[x].message,
-                               value: err.errors[x].value
-                           });
-                       }
-                       res.status(500).json(modelErrors);
-                   }
-               } else {
-                   console.log(organization);
-                   Organization.where({ _id: organization._id }).update({ created_by: user }, function(err){
-                       console.log("Updated!")
-                   });
-               }
-            });
+            // Save User.
+            req.body.organization = organization;
+            var user = createUser(req, res, next);
+            console.log(user);
+            if(user) {
+                // Update Organization.
+                Organization.where({ _id: organization._id }).update({ created_by: user }, function(err){
+                    console.log("Updated!")
+                });
+            }
+
             res.status(200).json([
                 {
                     msg:'Success'
@@ -86,10 +63,29 @@ exports.createOrg = function(req, res, next){
     });
 };
 
-
-exports.userCreate = function(req, res, next) {
-
+/**
+ *Common method to save users.
+ */
+function createUser(req, res,next) {
+    var user = new User(req.body);
+    user.save(function(err){
+       if(err) {
+           var modelErrors = [];
+           if (err.errors) {
+               for (var x in err.errors) {
+                   modelErrors.push({
+                       param: x,
+                       msg: err.errors[x].message,
+                       value: err.errors[x].value
+                   });
+               }
+               res.status(500).json(modelErrors);
+           }
+       }
+    });
+    return user;
 };
+
 
 /**
  * Send reset password email
