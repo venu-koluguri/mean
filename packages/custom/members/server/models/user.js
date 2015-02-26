@@ -4,7 +4,9 @@
  * Module dependencies.
  */
 var mongoose  = require('mongoose'),
-    Schema    = mongoose.Schema;
+    Schema    = mongoose.Schema,
+    crypto    = require('crypto'),
+    _   = require('lodash');
 
 var UserSchema = new Schema({
         first_name:{
