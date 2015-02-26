@@ -2,7 +2,7 @@
 var members = require('../controllers/members');
 /* jshint -W098 */
 // The Package is past automatically as first parameter
-module.exports = function(Members, app, auth, database) {
+module.exports = function(Members, app, auth, database,passport) {
 
   app.get('/members/example/anyone', function(req, res, next) {
     res.send('Anyone can access this');
