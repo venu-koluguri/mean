@@ -2,12 +2,23 @@
 
 /* jshint -W098 */
 angular.module('mean.members').controller('MembersController', ['$scope', 'Global', 'Members',
-  function($scope, Global, Members) {
-    $scope.global = Global;
-    $scope.package = {
-      name: 'members'
-    };
-  }
+    function($scope, Global, Members) {
+        var memberCtrl = this;
+        $scope.global = Global;
+        $scope.package = {
+            name: 'members'
+        };
+        this.register = function(valid) {
+            console.log('in member register 22222');
+            memberCtrl.submitted = true;
+            if(!valid){
+                return;
+            }else{
+                console.log(memberCtrl.member)
+                Members.saveMember(memberCtrl.member);
+            }
+        };
+    }
 ]);
 angular.module('mean.members').controller('MLoginCtrl', ['$scope', '$rootScope', '$http', '$location', 'Global',
     function($scope, $rootScope, $http, $location, Global) {
