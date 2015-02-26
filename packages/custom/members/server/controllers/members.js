@@ -9,7 +9,8 @@ var mongoose = require('mongoose'),
     async = require('async'),
     config = require('meanio').loadConfig(),
     crypto = require('crypto'),
-    nodemailer = require('nodemailer');
+    nodemailer = require('nodemailer'),
+    templates = require('../signupTemplate');
 
 
 exports.createOrg = function(req, res, next){
@@ -46,7 +47,6 @@ exports.createOrg = function(req, res, next){
             // Save User.
             req.body.organization = organization;
             var user = createUser(req, res, next);
-            console.log(user);
             if(user) {
                 // Update Organization.
                 Organization.where({ _id: organization._id }).update({ created_by: user }, function(err){
@@ -66,7 +66,7 @@ exports.createOrg = function(req, res, next){
 /**
  *Common method to save users.
  */
-function createUser(req, res,next) {
+function createUser(req, res, next) {
     var user = new User(req.body);
     user.save(function(err){
        if(err) {
@@ -81,6 +81,13 @@ function createUser(req, res,next) {
                }
                res.status(500).json(modelErrors);
            }
+       } else {
+           var mailOptions = {
+               to: user.email,
+               from: config.emailFrom
+           };
+           mailOptions = templates.signup_email(user, req, mailOptions);
+           sendMail(mailOptions);
        }
     });
     return user;
@@ -91,6 +98,7 @@ function createUser(req, res,next) {
  * Send reset password email
  */
 function sendMail(mailOptions) {
+    console.log(mailOptions);
     var transport = nodemailer.createTransport(config.mailer);
     transport.sendMail(mailOptions, function(err, response) {
         if (err) return err;
