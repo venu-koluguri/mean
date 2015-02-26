@@ -25,4 +25,15 @@ module.exports = function(Members, app, auth, database) {
     });
   });
   app.route('/members/createOrg').post(members.createOrg);
+
+    app.route('/members/login')
+        .post(passport.authenticate('local', {
+            failureFlash: true
+        }), function(req, res) {
+
+            res.send({
+                user: req.user
+                // redirect: (req.user.roles.indexOf('admin') !== -1) ? req.get('referer') : false
+            });
+        });
 };

@@ -3,8 +3,11 @@
 angular.module('mean.members').config(['$stateProvider',
   function($stateProvider) {
     $stateProvider.state('members', {
-      url: '/members/example',
-      templateUrl: 'members/views/index.html'
+        url: '/members/login',
+        templateUrl: 'members/views/login.html'
+    }).state('register', {
+        url: '/members/register',
+        templateUrl: 'members/views/register.html'
     });
   }
 ]);
