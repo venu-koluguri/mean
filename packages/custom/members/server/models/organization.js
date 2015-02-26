@@ -19,12 +19,10 @@ var OrganizationSchema = new Schema({
         required: true
     },
     contact_person:{
-        type: String,
-        required: true
+        type: String
     },
     contact_number:{
-        type: Number,
-        required: true
+        type: Number
     },
     url:{
         type: String
@@ -79,6 +77,10 @@ var OrganizationSchema = new Schema({
     validity_period:{
         type:Number,
         default:1
+    },
+    logo : {
+        type:String,
+        required: true
     },
     roles:[
         {

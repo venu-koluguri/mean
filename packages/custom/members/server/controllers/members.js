@@ -16,12 +16,12 @@ var mongoose = require('mongoose'),
 exports.createOrg = function(req, res, next){
 
     // because we set our user.provider to local our models/user.js validation will always be true
-    req.assert('name', 'You must enter a name').notEmpty();
+    req.assert('name', 'name should not be empty').notEmpty();
     req.assert('email', 'You must enter a valid email address').isEmail();
-    req.assert('contact_person', 'You must enter a contact person').notEmpty();
-    req.assert('contact_number', 'You must enter a contact number').notEmpty();
+    req.assert('first_name', 'first_name should not be empty').notEmpty();
+    req.assert('last_name', 'last_name should not be empty').notEmpty();
     req.assert('password', 'Password must be between 8-20 characters long').len(8, 20);
-    req.assert('login', 'Username cannot be more than 20 characters').len(2, 20);
+    //req.assert('logo', 'Logo should not be empty.').notEmpty();
 
 
     var errors = req.validationErrors();

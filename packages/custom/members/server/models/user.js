@@ -7,13 +7,6 @@ var mongoose  = require('mongoose'),
     Schema    = mongoose.Schema;
 
 var UserSchema = new Schema({
-        login:{
-            type: String,
-            required: true,
-            trim:true,
-            lowercase: true,
-            match: /.{2,15}/
-        },
         first_name:{
             type: String,
             required: true,
@@ -45,7 +38,8 @@ var UserSchema = new Schema({
             type: Number
         },
         email:{
-            type: String
+            type: String,
+            required: true
         },
         messenger_id:{
             type: String
