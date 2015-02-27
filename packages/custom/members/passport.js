@@ -34,7 +34,7 @@ module.exports = function(passport) {
     function(email, password, done) {
 
       User.findOne({
-          login: email
+          email: email
       }, function(err, user) {
           console.log('in passport auth');
           console.log(user);
