@@ -24,16 +24,20 @@ module.exports = function(Members, app, auth, database,passport) {
       res.send(html);
     });
   });
-  app.route('/members/createOrg').post(members.createOrg);
 
-    app.route('/members/login')
-        .post(passport.authenticate('local', {
-            failureFlash: true
-        }), function(req, res) {
+    // Create Organization.
+    app.route('/members/createOrg').post(members.createOrg);
 
-            res.send({
-                user: req.user
-                // redirect: (req.user.roles.indexOf('admin') !== -1) ? req.get('referer') : false
-            });
+    // Forgot Password.
+    app.route('/members/forgot-password').post(members.forgotpassword);
+
+    // Rest Password.
+    app.route('/members/reset/:token').post(members.resetpassword);
+
+    app.route('/members/login').post(passport.authenticate('local', {failureFlash: true}), function(req, res) {
+       res.send({
+           user: req.user
+           // redirect: (req.user.roles.indexOf('admin') !== -1) ? req.get('referer') : false
         });
+    });
 };

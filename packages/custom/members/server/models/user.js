@@ -45,7 +45,8 @@ var UserSchema = new Schema({
         },
         email:{
             type: String,
-            required: true
+            required: true,
+            unique :true
         },
         messenger_id:{
             type: String
@@ -54,6 +55,12 @@ var UserSchema = new Schema({
             type: Boolean,
             required: true,
             default:true
+        },
+        resetPasswordToken : {
+            type : String
+        },
+        resetPasswordExpires : {
+            type : Date
         },
         organization:{
             type:Schema.ObjectId,
