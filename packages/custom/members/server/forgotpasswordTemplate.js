@@ -3,7 +3,7 @@
 module.exports = {
   forgot_password_email: function(user, req, token, mailOptions) {
     mailOptions.html = [
-      'Hi ' + user.name + ',',
+      'Hi ' + user.fullname + ',',
       'We have received a request to reset the password for your account.',
       'If you made this request, please click on the link below or paste this into your browser to complete the process:',
       'http://' + req.headers.host + '/#!/members/reset/' + token,
