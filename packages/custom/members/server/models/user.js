@@ -82,7 +82,7 @@ var UserSchema = new Schema({
     });
 
 UserSchema.virtual('fullname').get(function () {
-    return this.first_name + ' ' + this.mid_name+ ' ' + this.last_name;
+    return this.first_name + ' ' + this.last_name;
 });
 
 UserSchema.virtual('password').set(function(password) {

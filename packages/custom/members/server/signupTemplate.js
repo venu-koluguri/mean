@@ -3,7 +3,7 @@
 module.exports = {
     signup_email: function(user, req, mailOptions) {
         mailOptions.html = [
-            'Hi ' + user.first_name + ',',
+            'Hi ' + user.fullname + ',',
             'You have successfully registered. Click on below link to login.',
             ' http://' + req.headers.host + '/#!/auth/login'
         ].join('\n\n');
