@@ -16,6 +16,7 @@ angular.module('mean.users')
   .controller('MLoginCtrl', ['$scope', '$rootScope', '$http', '$location', 'Global',
     function($scope, $rootScope, $http, $location, Global) {
       // This object will be filled by the form
+        var ctrl = this;
       $scope.user = {};
       $scope.global = Global;
       $scope.global.registerForm = false;
@@ -35,30 +36,37 @@ angular.module('mean.users')
       };
 
       // Register the login() function
-      $scope.login = function() {
-        $http.post('/login', {
-          email: $scope.user.email,
-          password: $scope.user.password
-        })
-          .success(function(response) {
-            // authentication OK
-            $scope.loginError = 0;
-            $rootScope.user = response.user;
-            $rootScope.$emit('loggedin');
-            if (response.redirect) {
-              if (window.location.href === response.redirect) {
-                //This is so an admin user will get full admin page
-                window.location.reload();
-              } else {
-                window.location = response.redirect;
-              }
-            } else {
-              $location.url('/');
-            }
-          })
-          .error(function() {
-            $scope.loginerror = 'Authentication failed.';
-          });
+      ctrl.login = function(isValid) {
+          ctrl.submitted = true;
+        if(!isValid){
+            return;
+        }else{
+            $http.post('/login', {
+                email: $scope.user.email,
+                password: $scope.user.password
+            })
+                .success(function(response) {
+                    // authentication OK
+                    $scope.loginError = 0;
+                    $rootScope.user = response.user;
+                    $rootScope.$emit('loggedin');
+                    ctrl.submitted = false;
+                    if (response.redirect) {
+                        if (window.location.href === response.redirect) {
+                            //This is so an admin user will get full admin page
+                            window.location.reload();
+                        } else {
+                            window.location = response.redirect;
+                        }
+                    } else {
+                        $location.url('/');
+                    }
+                })
+                .error(function() {
+                    $scope.loginerror = 'Authentication failed.';
+                });
+        }
+
       };
     }
   ]).controller('MembersController', ['$scope', 'Global', 'MeanUser',

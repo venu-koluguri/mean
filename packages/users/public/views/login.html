@@ -1,11 +1,41 @@
-<div data-ng-controller="MLoginCtrl">
+<div class="panel panel-default">
+<div class="panel-heading">Login Members</div>
+<div class="panel-body">
+
+<div data-ng-controller="MLoginCtrl as loginCtrl">
 
     <div class="alert alert-danger animated fadeIn" ng-show="loginerror">{{loginerror}}</div>
 
-    <h2>Login Members</h2>
+    <form id="login_form" name="loginForm" novalidate>
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label for="email" class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-6" ng-class="{ 'has-error' : loginForm.email.$invalid && !loginForm.email.$pristine}">
+                    <input class="form-control" id="email"  type="email" placeholder="Enter Email Address" name="email" required ng-model="user.email">
+                    <span class="help-inline text-danger" ng-show="loginCtrl.submitted &&  loginForm.email.$error.required">Email is required</span>
+                </div>
+            </div>
+        </div><!-- /.col-lg-12 -->
 
-    <form id="login_form" ng-submit="login()">
-        <div class="input-wrapper">
+
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">Password</label>
+                <div class="col-sm-6" ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine}">
+                    <input class="form-control" id="password" type="password" placeholder="Enter Email Address" name="password" required ng-model="user.password">
+                    <span class="help-inline text-danger" ng-show="loginCtrl.submitted &&  loginForm.password.$error.required">Password is required</span>
+                </div>
+            </div>
+        </div><!-- /.col-lg-12 -->
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success" ng-click="loginCtrl.login(loginForm.$valid)">Login</button>
+                <button type="reset" class="btn btn-default">Cancel</button>
+            </div>
+        </div>
+
+       <!-- <div class="input-wrapper">
             <input required id="email_block" type="text" name="email" placeholder="Email Address" ng-model="user.email">
             <div class="error_message">Please enter a correct info #</div>
             <span class="pic email"></span>
@@ -29,6 +59,8 @@
         </div>
         <div class="woman_ninja_bottom">
             <img src="/theme/assets/img/woman_ninja.png" alt="#">
-        </div>
+        </div>-->
     </form>
 </div>
+</div>
+    </div>
