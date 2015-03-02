@@ -13,7 +13,7 @@ angular.module('mean.users')
         });
     }
   ])
-  .controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$location', 'Global',
+  .controller('MLoginCtrl', ['$scope', '$rootScope', '$http', '$location', 'Global',
     function($scope, $rootScope, $http, $location, Global) {
       // This object will be filled by the form
       $scope.user = {};
@@ -61,7 +61,25 @@ angular.module('mean.users')
           });
       };
     }
-  ])
+  ]).controller('MembersController', ['$scope', 'Global', 'MeanUser',
+        function($scope, Global, MeanUser) {
+            var memberCtrl = this;
+            $scope.global = Global;
+            $scope.package = {
+                name: 'members'
+            };
+            this.register = function(valid) {
+                console.log('in member register 22222');
+                memberCtrl.submitted = true;
+                if(!valid){
+                    return;
+                }else{
+                    console.log(memberCtrl.member)
+                    MeanUser.saveMember(memberCtrl.member);
+                }
+            };
+        }
+    ])
   .controller('RegisterCtrl', ['$scope', '$rootScope', '$http', '$location', 'Global',
     function($scope, $rootScope, $http, $location, Global) {
       $scope.user = {};

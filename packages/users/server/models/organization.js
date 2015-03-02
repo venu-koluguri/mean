@@ -79,8 +79,8 @@ var OrganizationSchema = new Schema({
         default:1
     },
     logo : {
-        type:String,
-        required: true
+        type:String
+       /* required: true*/
     },
     roles:[
         {

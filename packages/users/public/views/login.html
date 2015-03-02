@@ -1,12 +1,12 @@
-<div data-ng-controller="LoginCtrl">
+<div data-ng-controller="MLoginCtrl">
 
     <div class="alert alert-danger animated fadeIn" ng-show="loginerror">{{loginerror}}</div>
 
-    <h2>Login</h2>
+    <h2>Login Members</h2>
 
     <form id="login_form" ng-submit="login()">
         <div class="input-wrapper">
-            <input required id="email_block" type="email" name="email" placeholder="Email Address" ng-model="user.email">
+            <input required id="email_block" type="text" name="email" placeholder="Email Address" ng-model="user.email">
             <div class="error_message">Please enter a correct info #</div>
             <span class="pic email"></span>
         </div>

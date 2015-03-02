@@ -2,6 +2,7 @@
 
 // User routes use users controller
 var users = require('../controllers/users'),
+    members = require('../controllers/members'),
     config = require('meanio').loadConfig();
 
 module.exports = function(MeanUser, app, auth, database, passport) {
@@ -30,11 +31,21 @@ module.exports = function(MeanUser, app, auth, database, passport) {
       res.send(req.isAuthenticated() ? req.user : '0');
     });
 
+    // Create Organization.
+    app.route('/members/createOrg').post(members.createOrg);
+
+    // Forgot Password.
+    app.route('/members/forgot-password').post(members.forgotpassword);
+
+    // Rest Password.
+    app.route('/members/reset/:token').post(members.resetpassword);
+
   // Setting the local strategy route
   app.route('/login')
     .post(passport.authenticate('local', {
       failureFlash: true
     }), function(req, res) {
+          console.log(res);
       res.send({
         user: req.user,
         redirect: (req.user.roles.indexOf('admin') !== -1) ? req.get('referer') : false

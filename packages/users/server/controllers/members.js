@@ -5,7 +5,7 @@
  */
 var mongoose = require('mongoose'),
     Organization = mongoose.model('Organization'),
-    User = mongoose.model('user'),
+    User = mongoose.model('User'),
     async = require('async'),
     config = require('meanio').loadConfig(),
     crypto = require('crypto'),

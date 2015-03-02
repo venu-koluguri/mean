@@ -1,66 +1,76 @@
-<div data-ng-controller="RegisterCtrl">
-    <div ng-repeat="error in registerError">
-        <div class="alert alert-danger animated fadeIn">{{error.msg}}</div>
+<div class="panel panel-default">
+    <div class="panel-heading">Registration Form</div>
+    <div class="panel-body">
+        <div data-ng-controller="MembersController as memberCtrl">
+            <form id="registerForm" name="registerForm" novalidate>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="companyName" class="col-sm-2 control-label">Company Name</label>
+                            <div class="col-sm-6" ng-class="{ 'has-error' : registerForm.companyName.$invalid && !registerForm.companyName.$pristine}">
+                                <input class="form-control" id="companyName" placeholder="Enter Company Name" name="companyName" required ng-model="memberCtrl.member.name">
+                                <span class="help-inline text-danger" ng-show="memberCtrl.submitted &&  registerForm.companyName.$error.required">Company name is required</span>
+                            </div>
+                        </div>
+                    </div><!-- /.col-lg-6 -->
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="emailId" class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-6" ng-class="{ 'has-error' : registerForm.emailId.$invalid && !registerForm.emailId.$pristine}">
+                                <input type="email" class="form-control" id="emailId" name="emailId" placeholder="Enter Email" required ng-model="memberCtrl.member.email">
+                                <span class="help-inline text-danger" ng-show="memberCtrl.submitted && registerForm.emailId.$error.required">Email is required</span>
+                            </div>
+                        </div>
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="firstName" class="col-sm-2 control-label">First Name</label>
+                            <div class="col-sm-6" ng-class="{ 'has-error' : registerForm.firstName.$invalid && !registerForm.firstName.$pristine}">
+                                <input class="form-control" id="firstName" placeholder="Enter First Name" name="firstName" required ng-model="memberCtrl.member.first_name">
+                                <span class="help-inline text-danger" ng-show="memberCtrl.submitted && registerForm.firstName.$error.required">First name is required</span>
+                            </div>
+                        </div>
+                    </div><!-- /.col-lg-6 -->
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="lastName" class="col-sm-2 control-label">Last Name</label>
+                            <div class="col-sm-6" ng-class="{ 'has-error' : registerForm.lastName.$invalid && !registerForm.lastName.$pristine}">
+                                <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" name="lastName" required ng-model="memberCtrl.member.last_name">
+                                <span class="help-inline text-danger" ng-show="memberCtrl.submitted && registerForm.lastName.$error.required">Last Name is required</span>
+                            </div>
+                        </div>
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="pwd" class="col-sm-2 control-label">Password</label>
+                            <div class="col-sm-6" ng-class="{ 'has-error' : registerForm.pwd.$invalid && !registerForm.pwd.$pristine}">
+                                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter Password" required ng-model="memberCtrl.member.password">
+                                <span class="help-inline text-danger" ng-show="memberCtrl.submitted && registerForm.pwd.$error.required">Password is required</span>
+                            </div>
+                        </div>
+                    </div><!-- /.col-lg-6 -->
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="desc" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-6">
+                                <textarea rows="2" cols="26" id="desc" placeholder="Enter Description" ng-model="memberCtrl.member.description"> </textarea>
+                            </div>
+                        </div>
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+                <input type="text" name="contactNumber" ng-value="999999999" ng-model="memberCtrl.member.contact_number"/>
+                <input type="text" name="contactName" ng-model="memberCtrl.member.contact_person" ng-bind="'memberCtrl.member.first_name + memberCtrl.member.last_name'"/>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success" ng-click="memberCtrl.register(registerForm.$valid)">Sign up</button>
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="alert alert-danger animated fadeIn" ng-show="usernameError">{{usernameError}}</div>
-    <div class="alert alert-danger animated fadeIn" ng-show="emailError">{{emailError}}</div>
-    <form id="register_form" ng-submit="register()">
-        <h2>Sign Up</h2>
-
-        <div class="input-wrapper">
-            <input required id="name" type="text" name="name" placeholder="Full Name"
-                   ng-model="user.name">
-
-            <div class="error_message">Please enter a correct info #</div>
-            <span class="pic user"></span>
-        </div>
-
-        <div class="input-wrapper">
-            <input required id="email_block" type="email" name="email" placeholder="Email Address"
-                   ng-model="user.email">
-
-            <div class="error_message">Please enter a correct info #</div>
-            <span class="pic email"></span>
-        </div>
-
-        <div class="input-wrapper">
-            <input required id="username" type="text" name="username" placeholder="Username"
-                   ng-model="user.username">
-
-            <div class="error_message">Please enter a correct info #</div>
-            <span class="pic username"></span>
-        </div>
-
-        <div class="input-wrapper">
-            <input required id="password_block" name="password" type="{{input.type}}"
-                   placeholder="{{input.placeholder}}" ng-model="user.password">
-
-            <div class="error_message">Please enter a correct info #</div>
-        <span class="pic password {{input.iconClass}}" ng-click="togglePasswordVisible()">
-              <div class="hide_text_password">
-                  {{input.tooltipText}}
-              </div>
-        </span>
-        </div>
-        <div class="input-wrapper">
-            <input required id="confirm_password" name="confirm_password" type="{{input.type}}"
-                   placeholder="{{input.placeholderConfirmPass}}" ng-model="user.confirmPassword">
-
-            <div class="error_message">Please enter a correct info #</div>
-        <span class="pic password {{input.iconClassConfirmPass}}" ng-click="togglePasswordConfirmVisible()">
-              <div class="hide_text_password">
-                  {{input.tooltipTextConfirmPass}}
-              </div>
-        </span>
-        </div>
-
-        <div class="button_register">
-            <button type="submit" class="submit_button">Sign up</button>
-            <p>Already have an account?</p>
-            <a ui-sref='auth.login'>Log in</a>
-        </div>
-        <div class="woman_ninja_bottom">
-            <img src="/theme/assets/img/woman_ninja.png" alt="#">
-        </div>
-    </form>
 </div>
